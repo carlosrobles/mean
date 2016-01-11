@@ -72,3 +72,4 @@ modules/views/
 # vim Files
 # --------------------
 *.swp
+_labs
