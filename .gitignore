@@ -72,4 +72,7 @@ modules/views/
 # vim Files
 # --------------------
 *.swp
+
+
 _labs
+packages/custom/mail-templates/server/templates/example/style.css
