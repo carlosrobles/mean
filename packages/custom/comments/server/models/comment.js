@@ -32,7 +32,12 @@ var CommentSchema = new Schema({
   },
   userName: {
     type: String
-  }
+  },
+  article: {
+        type: Schema.ObjectId,
+        ref: 'Article',
+        index: true
+    }
 });
 
 /**
