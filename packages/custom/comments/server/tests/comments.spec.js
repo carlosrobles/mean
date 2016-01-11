@@ -65,15 +65,6 @@ describe('<Unit Test>', function() {
         });
       });
 
-      it('should be able to show an error when try to save without user', function(done) {
-        this.timeout(10000);
-        comment.user = null;
-
-        return comment.save(function(err) {
-          expect(err).to.not.be(null);
-          done();
-        });
-      });
 
     });
 
