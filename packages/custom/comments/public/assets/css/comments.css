@@ -1,3 +1,8 @@
-.comments-example h1 {
-    background-color: purple
+.comments-form {
+  padding: 10px;
+    margin-top: 15px;
+  background:#ededed ;
+  border-radius: 5px;
+  border: 1px solid #dedede;
+    display: block;
 }
