@@ -1,0 +1,10 @@
+<div class="comments-form">
+    <form id="comment_article-{{article._id}}"
+          data-ng-submit="create(body, article)">
+        <textarea name="comment"  cols="30" id="comment-message" rows="1" placeholder="Write a comment..."
+           data-ng-model="content" class="form-control" required></textarea>
+        <br>
+        <input type="submit" class="btn btn-default pull-right" value="Send"/>
+<br clear="all">
+    </form>
+</div>
