@@ -37,6 +37,7 @@
                 module('mean.system');
                 module('mean.articles');
                 module('mean.comments');
+                module('ngMockE2E');
             });
 
 // Initialize the controller and a mock scope
@@ -44,14 +45,14 @@
                 scope,
                 $httpBackend,
                 $stateParams,
-                $location,
-                Global;
+                $location;
 
 
 // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
 // This allows us to inject a service but then attach it to a variable
 // with the same name as the service.
-            beforeEach(inject(function ($controller, $rootScope, _$location_, _$stateParams_, _$httpBackend_, _Global_) {
+            beforeEach(inject(function ($controller, $rootScope, _$location_,
+                                        _$stateParams_, _$httpBackend_, $location) {
 
                 scope = $rootScope.$new();
 
@@ -65,7 +66,6 @@
 
                 $location = _$location_;
 
-                Global = _Global_;
 
             }));
 
@@ -80,8 +80,8 @@
                 };
 
                 var postCommentData = {
-                    article: articleData,
-                    content: 'MEAN rocks!'
+                    article: articleData._id,
+                    content: 'MEAN rocks!', user: 0
                 };
 
 
@@ -89,16 +89,30 @@
                 var responseCommentData = {
                     article: articleData,
                     _id: '525cf20451979dea2c000001',
-                    content: 'MEAN rocks!'
+                    content: 'MEAN rocks!', user: 0
 
                 };
 
                 scope.content = 'MEAN rocks!';
 
+
+                $httpBackend.when('GET', '/api/users/me').respond(200, {
+                    status: "success"
+                });
+
+
                 // test post request is sent
-                $httpBackend.expectPOST('api\/comments', postCommentData).respond(responseCommentData);
+                $httpBackend.expectPOST('api\/comments', function () {
+                    return postCommentData
+                }).respond(responseCommentData);
+
                 // Run controller
                 scope.create(scope.content, articleData);
+
+                $httpBackend.when('GET', 'system/views/index.html').respond(200, {
+                    status: "success"
+                });
+
                 $httpBackend.flush();
 
                 // test form input(s) are reset
