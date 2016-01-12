@@ -69,32 +69,32 @@
 
             }));
 
+            // fixture expected POST data
+            var articleData = {
+                _id: "1234"
+            };
+
+            var postCommentData = {
+                article: articleData._id,
+                content: 'MEAN rocks!', user: 0
+            };
+
+
+            // fixture expected response data
+            var responseCommentData = {
+                article: articleData,
+                _id: '525cf20451979dea2c000001',
+                content: 'MEAN rocks!', user: 0
+
+            };
 
             it('$scope.create() with valid form data should send a POST request ' +
             'with the form input values and then ' +
             'form is reset', function () {
 
-                // fixture expected POST data
-                var articleData = {
-                    _id: "1234"
-                };
-
-                var postCommentData = {
-                    article: articleData._id,
-                    content: 'MEAN rocks!', user: 0
-                };
-
-
-                // fixture expected response data
-                var responseCommentData = {
-                    article: articleData,
-                    _id: '525cf20451979dea2c000001',
-                    content: 'MEAN rocks!', user: 0
-
-                };
 
                 scope.content = 'MEAN rocks!';
-
+                scope.article = articleData;
 
                 $httpBackend.when('GET', '/api/users/me').respond(200, {
                     status: "success"
@@ -122,61 +122,34 @@
 
 
             ////////////////////////////////////////////////////////////////
+
+/*
+
+            it('$scope.find() should create an array with at least one comment object ' +
+            'fetched from XHR', function() {
+
+                // test expected GET request
+                $httpBackend.expectGET('api\/comments/article/1234').respond([responseCommentData]);
+
+                // run controller
+                scope.find();
+                $httpBackend.flush();
+
+                // test scope value
+                expect(scope.comments).toEqualData([responseCommentData]);
+
+            });*/
         })
     }); //Mean controlers
 
 }());
 
+
+
+
+
+
 /*
-
-
-
-
- it('$scope.find() should create an array with at least one article object ' +
- 'fetched from XHR', function() {
-
- // test expected GET request
- $httpBackend.expectGET('api\/articles').respond([{
- title: 'An Article about MEAN',
- content: 'MEAN rocks!'
- }]);
-
- // run controller
- scope.find();
- $httpBackend.flush();
-
- // test scope value
- expect(scope.articles).toEqualData([{
- title: 'An Article about MEAN',
- content: 'MEAN rocks!'
- }]);
-
- });
-
- it('$scope.findOne() should create an array with one article object fetched ' +
- 'from XHR using a articleId URL parameter', function() {
- // fixture URL parament
- $stateParams.articleId = '525a8422f6d0f87f0e407a33';
-
- // fixture response object
- var testArticleData = function() {
- return {
- title: 'An Article about MEAN',
- content: 'MEAN rocks!'
- };
- };
-
- // test expected GET request with response object
- $httpBackend.expectGET(/api\/articles\/([0-9a-fA-F]{24})$/).respond(testArticleData());
-
- // run controller
- scope.findOne();
- $httpBackend.flush();
-
- // test scope value
- expect(scope.article).toEqualData(testArticleData());
-
- });
 
 
 
@@ -217,29 +190,4 @@
 
  }));
 
- it('$scope.remove() should send a DELETE request with a valid articleId ' +
- 'and remove the article from the scope', inject(function(Articles) {
-
- // fixture rideshare
- var article = new Articles({
- _id: '525a8422f6d0f87f0e407a33'
- });
-
- // mock rideshares in scope
- scope.articles = [];
- scope.articles.push(article);
-
- // test expected rideshare DELETE request
- $httpBackend.expectDELETE(/api\/articles\/([0-9a-fA-F]{24})$/).respond(204);
-
- // run controller
- scope.remove(article);
- $httpBackend.flush();
-
- // test after successful delete URL location articles list
- //expect($location.path()).toBe('/articles');
- expect(scope.articles.length).toBe(0);
-
- }));
- });
  */
