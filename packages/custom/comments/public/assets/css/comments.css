@@ -1,8 +1,46 @@
 .comments-form {
-  padding: 10px;
-    margin-top: 15px;
-  background:#ededed ;
-  border-radius: 5px;
-  border: 1px solid #dedede;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #dedede;
+    background: #ededed;
+    border-top-width: 0px;
     display: block;
+    margin-top: 1px;
+}
+.comments-list {
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+
+    background: #ededed;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid #dedede;
+    display: block;
+    border-bottom-width: 0px;
+}
+
+.comments-list .comment {
+    padding: 5px;
+    border-bottom: 1px solid #fefefe;
+    margin-top: 1px;
+}
+.comments-list .comment:last-child {
+    border-bottom-width: 0px;
+}
+.comments-list .comment span {
+    display: inline;
+    padding-right: 5px;
+}
+.comments-list .comment .comment-author {
+    font-weight: bold;
+}
+
+.comments-list .comment .comment-date {
+    font-style: italic;
+}
+
+.comments-list .comment .comment-content {
+    display: inline;
 }
