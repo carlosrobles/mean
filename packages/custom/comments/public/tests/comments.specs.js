@@ -128,6 +128,11 @@
             it('$scope.find() should create an array with at least one comment object ' +
             'fetched from XHR', function() {
 
+
+                $httpBackend.when('GET', '/api/users/me').respond(200, {
+                    status: "success"
+                });
+
                 // test expected GET request
                 $httpBackend.expectGET('api\/comments/article/1234').respond([responseCommentData]);
 
