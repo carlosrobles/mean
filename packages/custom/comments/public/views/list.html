@@ -2,10 +2,8 @@
     <div data-ng-repeat="comment in comments | orderBy: '+created' ">
         <div class="comment">
             <span class="comment-author">{{comment.user.name}}</span>
-            <span class="comment-date" time-ago from-time="{{comment.created}}"></span>
-            <div class="comment-content" ng-bind-html="comment.content">
-                {{comment.content}}
-            </div>
+            <span class="comment-date">{{comment.created}}</span>
+            <div class="comment-content">{{comment.content}}</div>
         </div>
     </div>
 </div>
