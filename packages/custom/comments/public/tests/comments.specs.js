@@ -138,6 +138,11 @@
 
                 // run controller
                 scope.find(articleData);
+
+                $httpBackend.when('GET', 'system/views/index.html').respond(200, {
+                    status: "success"
+                });
+                
                 $httpBackend.flush();
 
                 // test scope value
