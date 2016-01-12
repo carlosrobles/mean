@@ -94,7 +94,6 @@
 
 
                 scope.content = 'MEAN rocks!';
-                scope.article = articleData;
 
                 $httpBackend.when('GET', '/api/users/me').respond(200, {
                     status: "success"
@@ -135,9 +134,9 @@
 
                 // test expected GET request
                 $httpBackend.expectGET('api\/comments/article/1234').respond([responseCommentData]);
+                
 
-                // run controller
-                scope.find(articleData);
+                scope.article = articleData;
 
                 $httpBackend.when('GET', 'system/views/index.html').respond(200, {
                     status: "success"
