@@ -34,21 +34,14 @@ exports.create = function (req, res) {
                 error: 'Cannot save the comment'
             });
         }
-        /*
-         Articles.events.publish({
-         action: 'created',
-         user: {
-         name: req.user.name
-         },
-         url: config.hostname + '/articles/' + article._id,
-         name: article.title
-         });
-         */
-        res.json(comment);
+        comment.populate('user', function(err) {
+            res.json(comment);
+        });
+
     });
 };
 
-/**
+/** 
  * Update a comment
  */
 exports.update = function (req, res) {
