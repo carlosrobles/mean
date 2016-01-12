@@ -5,7 +5,6 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
 
         $scope.create = function (content, article) {
 
-            debugger;
             var comment = new CommentsResource({
                 content: content,
                 article: article._id,
