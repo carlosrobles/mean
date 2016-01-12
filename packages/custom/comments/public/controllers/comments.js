@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mean.comments').controller('CommentsController', ['$scope', 'MeanUser', '$stateParams', 'Global',
-    'CommentsResource','CommentsListResource',
+    'CommentsResource', 'CommentsListResource',
     function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsListResource) {
 
         $scope.create = function (content, article) {
@@ -27,10 +27,11 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
                     self.content = '';
                 })
         };
-
-
-        $scope.find = function(article) {
-            CommentsListResource.query(function(comments) {
+        
+        $scope.find = function (article) {
+            CommentsListResource.query({
+                articleId: article._id
+            }, function (comments) {
                 $scope.comments = comments;
             });
         };
