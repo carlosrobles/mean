@@ -123,7 +123,7 @@
 
             ////////////////////////////////////////////////////////////////
 
-/*
+
 
             it('$scope.find() should create an array with at least one comment object ' +
             'fetched from XHR', function() {
@@ -132,13 +132,13 @@
                 $httpBackend.expectGET('api\/comments/article/1234').respond([responseCommentData]);
 
                 // run controller
-                scope.find();
+                scope.find(articleData);
                 $httpBackend.flush();
 
                 // test scope value
                 expect(scope.comments).toEqualData([responseCommentData]);
 
-            });*/
+            });
         })
     }); //Mean controlers
 
