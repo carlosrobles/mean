@@ -1,11 +1,33 @@
 'use strict';
 
-/* jshint -W098 */
-angular.module('mean.comments').controller('CommentsController', ['$scope', 'Global', 'Comments',
-    function ($scope, Global, Comments) {
-        $scope.global = Global;
-        $scope.package = {
-            name: 'comments'
+angular.module('mean.comments').controller('CommentsController', ['$scope', 'MeanUser', '$stateParams', 'Global', 'CommentsResource',
+    function ($scope, MeanUser, $stateParams, Global, CommentsResource) {
+
+        $scope.create = function (content, article) {
+
+            debugger;
+            var comment = new CommentsResource({
+                content: content,
+                article: article._id,
+                user: ((MeanUser.user) ? MeanUser.user._id : null)
+            });
+
+            var self = this;
+
+            comment.$save()
+                .then(
+                function (data) {
+
+                    if (!$scope.article.comments || $scope.article.comments.length === 0) {
+                        $scope.article.comments = [];
+                    }
+                    $scope.article.comments.push(data);
+
+
+                    self.content = '';
+                })
         };
+
+
     }
 ]);
