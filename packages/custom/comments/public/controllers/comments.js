@@ -18,10 +18,10 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
                 .then(
                 function (data) {
 
-                    if (!$scope.article.comments || $scope.article.comments.length === 0) {
-                        $scope.article.comments = [];
+                    if (!$scope.comments || $scope.comments.length === 0) {
+                        $scope.comments = [];
                     }
-                    $scope.article.comments.push(data);
+                    $scope.comments.push(data);
 
 
                     self.content = '';
@@ -35,6 +35,12 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
                 $scope.comments = comments;
             });
         };
+
+        $scope.$watch('article', function () {
+          if(!!$scope.article)
+            $scope.find( $scope.article);
+        }, false);
+
 
     }
 ]);
