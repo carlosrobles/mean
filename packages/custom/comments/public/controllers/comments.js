@@ -21,6 +21,7 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
                     if (!$scope.comments || $scope.comments.length === 0) {
                         $scope.comments = [];
                     }
+                    comment.content = "Your comment is pending of moderation by the administrator";
                     $scope.comments.push(data);
 
 
