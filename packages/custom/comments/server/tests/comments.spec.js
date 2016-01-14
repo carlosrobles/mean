@@ -61,6 +61,26 @@ describe('<Unit Test>', function () {
 
         describe('Method Fetch', function () {
 
+            it('should fail with unauthorized(401) if trying to access private comments and user is not admin', function (done) {
+                this.timeout(10000);
+
+                var app = express();
+
+                routes(null, app, auth);
+
+                comment.save(function (err, data) {
+                    request(app)
+                        .get('/api/comments/article/' + article._id)
+                        .expect(401)
+                        .end(function (err, res) {
+                            if (err)
+                                return done(err);
+                            else
+                                done();
+                        });
+                });
+            });
+
             it('should be able to read at least one comment of whatever type if user is admin', function (done) {
                 this.timeout(10000);
 
