@@ -21,7 +21,7 @@ var auth = require("../../../../core/users/authorization");
 /**
  * Globals
  */
-var user, comment, article;
+var user, comment, article, approvedComment;
 
 /**
  * Test Suites
@@ -52,6 +52,13 @@ describe('<Unit Test>', function () {
                         content: 'Comment Content',
                         user: user,
                         article: article
+                    });
+
+                    approvedComment = new Comment({
+                        content: 'Approved Comment',
+                        user: user,
+                        article: article,
+                        status: "publish"
                     });
                     done();
 
@@ -110,6 +117,35 @@ describe('<Unit Test>', function () {
                 });
             });
 
+            it('any user should be able to read at least one comment, and the status of everyone is approved', function (done) {
+                this.timeout(10000);
+
+                var app = express();
+
+                routes(null, app, auth);
+
+                comment.save(function (err, data) {
+                    approvedComment.save(function (err, data) {
+                        request(app)
+                            .get('/api/comments/article/' + article._id + '/public')
+                            .expect(200)
+                            .end(function (err, res) {
+                                if (err) {
+                                    return done(err);
+                                }
+                                else {
+                                    var result = JSON.parse(JSON.stringify(res.body));
+                                    expect(result.length).to.not.equal(0);
+                                    for (var i in result){
+                                        expect(result[i].status).to.equal("publish");
+                                    }
+                                    done();
+                                }
+                            });
+                    });
+                });
+            });
+
         });
         describe('Method Save', function () {
 
@@ -143,8 +179,10 @@ describe('<Unit Test>', function () {
         afterEach(function (done) {
             this.timeout(10000);
             comment.remove(function () {
-                article.remove(function () {
-                    user.remove(done);
+                approvedComment.remove(function () {
+                    article.remove(function () {
+                        user.remove(done);
+                    });
                 });
             });
         });
