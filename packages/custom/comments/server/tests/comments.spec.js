@@ -58,7 +58,7 @@ describe('<Unit Test>', function () {
                         content: 'Approved Comment',
                         user: user,
                         article: article,
-                        status: "publish"
+                        status: "public"
                     });
                     done();
 
@@ -137,7 +137,7 @@ describe('<Unit Test>', function () {
                                     var result = JSON.parse(JSON.stringify(res.body));
                                     expect(result.length).to.not.equal(0);
                                     for (var i in result){
-                                        expect(result[i].status).to.equal("publish");
+                                        expect(result[i].status).to.equal("public");
                                     }
                                     done();
                                 }

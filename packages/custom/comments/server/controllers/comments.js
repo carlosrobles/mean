@@ -104,7 +104,7 @@ exports.show = function (req, res) {
 
 
 exports.fetchPublicByArticle = function (req, res ) {
-    return exports.fetchByArticle(req, res, "publish");
+    return exports.fetchByArticle(req, res, "public");
 }
 /**
  * Fetching comments for a post

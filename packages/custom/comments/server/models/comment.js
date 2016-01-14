@@ -22,7 +22,7 @@ var CommentSchema = new Schema({
     },
     /*
      As a string to easly use and recognise the statuses, since it will be a discrete set.
-     Eventually we could have some like publish, draft, pending, private, trash
+     Eventually we could have some like public, draft, pending, private, trash
      */
     status: {
         type: String,
