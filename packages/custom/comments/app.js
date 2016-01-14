@@ -16,8 +16,15 @@ Comments.register(function (app, auth, database) {
     //We enable routing. By default the Package Object is passed to the routes
     Comments.routes(app, auth, database);
 
-
     Comments.aggregateAsset('css', 'comments.css');
+
+    Comments.menus.add({
+        title: 'Comments',
+        link: 'manage comments',
+        roles: ['authenticated', 'admin'],
+        menu: 'main'
+    });
+
 
     /**
      //Uncomment to use. Requires meanio@0.3.7 or above
