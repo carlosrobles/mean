@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 
 
 /**
- * Post Schema
+ * Comment Schema
  */
 var CommentSchema = new Schema({
     created: {
@@ -19,6 +19,14 @@ var CommentSchema = new Schema({
     updated: {
         type: Date,
         default: Date.now
+    },
+    /*
+     As a string to easly use and recognise the statuses, since it will be a discrete set.
+     Eventually we could have some like publish, draft, pending, private, trash
+     */
+    status: {
+        type: String,
+        default: "pending"
     },
     content: {
         type: String,
