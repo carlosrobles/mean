@@ -8,13 +8,20 @@
 var expect = require('expect.js'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    Comment = mongoose.model('Comment');
+    Comment = mongoose.model('Comment'),
+    Article = mongoose.model('Article');
 
+var express = require('express');
+var controller = require('../controllers/comments'),
+    routes = require('../routes/comments'),
+    request = require("supertest");
+
+
+var auth = require("../../../../core/users/authorization");
 /**
  * Globals
  */
-var user;
-var comment;
+var user, comment, article;
 
 /**
  * Test Suites
@@ -29,14 +36,52 @@ describe('<Unit Test>', function () {
                 username: 'user',
                 password: 'password'
             });
-            user.save(function () {
-                comment = new Comment({
-                    content: 'Comment Content',
-                    user: user
-                });
-                done();
-            });
 
+            user.save(function () {
+
+                article = new Article({
+
+                    title: "test",
+                    content: "test",
+                    user: user
+
+                });
+                article.save(function () {
+
+                    comment = new Comment({
+                        content: 'Comment Content',
+                        user: user,
+                        article: article
+                    });
+                    done();
+
+                });
+            });
+        });
+
+        describe('Method Fetch', function () {
+
+            it('should be able to read at least one comment', function (done) {
+                this.timeout(10000);
+
+                var app = express();
+
+                routes(null, app, auth);
+
+                comment.save(function (err, data) {
+                    request(app)
+
+                        .get('/api/comments/article/' + article._id)
+                        .end(function (err, res) {
+                            if (err) return done(err);
+                            var result = JSON.parse(JSON.stringify(res.body));
+                            expect(result.length).to.not.equal(0);
+
+                            done()
+                        });
+
+                });
+            });
 
         });
         describe('Method Save', function () {
@@ -70,8 +115,10 @@ describe('<Unit Test>', function () {
 
         afterEach(function (done) {
             this.timeout(10000);
-            comment.remove(function () {
-                user.remove(done);
+              comment.remove(function () {
+               article.remove(function () {
+                   user.remove(done);
+               });
             });
         });
     });
