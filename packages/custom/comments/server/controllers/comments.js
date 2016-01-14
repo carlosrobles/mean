@@ -103,19 +103,34 @@ exports.show = function (req, res) {
 };
 
 
+exports.fetchPublicByArticle = function (req, res ) {
+    return this.fetchByArticle(req, res, "publish");
+}
 /**
  * Fetching comments for a post
  */
-exports.fetchByArticle = function (req, res) {
+exports.fetchByArticle = function (req, res,  status) {
+
     var articleId = req.params.articleId;
     var limit = req.query.limit;
-    var query = Comment.find({
-        article: articleId
-    })
-        .sort({
+
+    var queryParams = {};
+
+    if (typeof status == 'string') {
+        queryParams = {
+            article: articleId,
+            status: status
+        };
+    } else {
+        queryParams = {
+            article: articleId
+        };
+    }
+    var query = Comment.find(queryParams).sort({
             _id: -1
         })
         .populate('user', 'name username');
+
     if (limit) {
         query.limit(limit);
     }

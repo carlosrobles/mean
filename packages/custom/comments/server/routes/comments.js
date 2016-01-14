@@ -17,7 +17,12 @@ module.exports = function (Comments, app, auth) {
         .post(auth.requiresLogin, comments.create);
 
     app.route('/api/comments/article/:articleId')
-        .get(comments.fetchByArticle);
+        .get(auth.requiresAdmin, comments.fetchByArticle);
+
+    app.route('/api/comments/article/:articleId/public')
+        .get(comments.fetchPublicByArticle);
+
+
 
     app.route('/api/comments/:commentId')
         .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, comments.update)
