@@ -61,23 +61,30 @@ describe('<Unit Test>', function () {
 
         describe('Method Fetch', function () {
 
-            it('should be able to read at least one comment', function (done) {
+            it('should be able to read at least one comment of whatever type if user is admin', function (done) {
                 this.timeout(10000);
 
                 var app = express();
+
+                auth.requiresAdmin = function (req, res, next) {
+                    next();
+                };
 
                 routes(null, app, auth);
 
                 comment.save(function (err, data) {
                     request(app)
-
                         .get('/api/comments/article/' + article._id)
+                        .expect(200)
                         .end(function (err, res) {
-                            if (err) return done(err);
-                            var result = JSON.parse(JSON.stringify(res.body));
-                            expect(result.length).to.not.equal(0);
-
-                            done()
+                            if (err) {
+                                return done(err);
+                            }
+                            else {
+                                var result = JSON.parse(JSON.stringify(res.body));
+                                expect(result.length).to.not.equal(0);
+                                done();
+                            }
                         });
 
                 });
@@ -115,10 +122,10 @@ describe('<Unit Test>', function () {
 
         afterEach(function (done) {
             this.timeout(10000);
-              comment.remove(function () {
-               article.remove(function () {
-                   user.remove(done);
-               });
+            comment.remove(function () {
+                article.remove(function () {
+                    user.remove(done);
+                });
             });
         });
     });
