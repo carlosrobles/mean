@@ -2,9 +2,9 @@
 
 angular.module('mean.comments').config(['$stateProvider',
     function ($stateProvider) {
-        $stateProvider.state('comments example page', {
-            url: '/comments/example',
-            templateUrl: 'comments/views/index.html'
+        $stateProvider.state('manage comments', {
+            url: '/comments/manage',
+            templateUrl: 'comments/views/manage.html'
         });
     }
 ]);
