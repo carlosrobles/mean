@@ -12,9 +12,9 @@ angular.module('mean.comments').factory('CommentsResource', ['$resource',
         });
     }
 ]).factory('CommentsListResource', ['$resource',
-    function($resource) {
-        return $resource('api/comments/article/:articleId', {
-            articleId: '@_id'
+    function($resource, status) {
+        return $resource('api/comments/article/:articleId/:status', {
+            articleId: '@_id', status: status
         },   {
             query: {
                 method: 'GET',

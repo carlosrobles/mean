@@ -1,0 +1,10 @@
+<div class="comments-list">
+    <div data-ng-repeat="comment in comments | orderBy: '+created' ">
+        <div class="comment">
+            <span class="comment-author">{{comment.user.name}}</span>
+            <span class="comment-date">{{comment.created}}</span>
+
+            <div class="comment-content">{{comment.content}}</div>
+        </div>
+    </div>
+</div>

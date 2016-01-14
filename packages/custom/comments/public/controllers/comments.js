@@ -29,16 +29,30 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
         };
         
         $scope.find = function (article) {
-            CommentsListResource.query({
-                articleId: article._id
-            }, function (comments) {
+
+            var params = {};
+
+
+            if (!MeanUser.isAdmin) {
+                params =   {
+                    articleId: article._id,
+                    status: "public"
+                };
+            }
+            else {
+                params =   {
+                    articleId: article._id
+                };
+            }
+            console.log(params);
+            CommentsListResource.query(params, function (comments) {
                 $scope.comments = comments;
             });
         };
 
         $scope.$watch('article', function () {
-          if(!!$scope.article)
-            $scope.find( $scope.article);
+            if (!!$scope.article)
+                $scope.find($scope.article);
         }, false);
 
 
