@@ -133,7 +133,7 @@
                 });
 
                 // test expected GET request
-                $httpBackend.expectGET('api\/comments/article/1234').respond([responseCommentData]);
+                $httpBackend.expectGET('api/comments/article/1234/public').respond([responseCommentData]);
                 
 
                 scope.article = articleData;
