@@ -1,10 +1,14 @@
-<div class="comments-list">
-    <div data-ng-repeat="comment in comments | orderBy: '+created' ">
-        <div class="comment">
-            <span class="comment-author">{{comment.user.name}}</span>
-            <span class="comment-date">{{comment.created}}</span>
+<div class="comments-list admin-comments-list " data-ng-controller="CommentsController" data-ng-init="find()">
+    <div class="comment" data-ng-repeat="comment in comments | orderBy: '-created' ">
 
-            <div class="comment-content">{{comment.content}}</div>
-        </div>
+
+        <a class="btn pull-left" ng-class="{public: 'btn-success', pending: 'btn-danger'}[comment.status]" ng-click="toggleStatus(comment)">{{comment.status == "public" && 'Approved' || 'Hidden'}}</a>
+
+
+        <span class="comment-author">{{comment.user.name}}</span>
+        <span class="comment-date">{{comment.created}}</span>
+
+        <div class="comment-content">{{comment.content}}</div>
+        <br clear="all">
     </div>
 </div>

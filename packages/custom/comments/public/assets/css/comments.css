@@ -8,6 +8,7 @@
     display: block;
     margin-top: 1px;
 }
+
 .comments-list {
     padding: 10px;
     margin-top: 15px;
@@ -21,10 +22,16 @@
     border-bottom-width: 0px;
 }
 
-.comments-list .comment {
+.admin-comments-list {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-width: 1px;
+}
+ .comment {
     padding: 5px;
-    border-bottom: 1px solid #fefefe;
+    border-bottom: 1px solid white;
     margin-top: 1px;
+
 }
 .comments-list .comment:last-child {
     border-bottom-width: 0px;
@@ -43,4 +50,17 @@
 
 .comments-list .comment .comment-content {
     display: inline;
+
+}
+
+.admin-comments-list .comment .btn{
+
+    margin-right: 5px;
+    width: 95px;
+
+}
+
+.switchdemoBasicUsage .inset {
+    padding-left: 25px;
+    padding-top: 25px;
 }
