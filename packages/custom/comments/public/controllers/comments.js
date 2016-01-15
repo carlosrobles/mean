@@ -4,6 +4,20 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
     'CommentsResource', 'CommentsByArticleResource',
     function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsByArticleResource) {
 
+
+        $scope.toggleStatus = function (comment) {
+
+            var self = this;
+
+            var newStatus = (comment.status == "public") ? "pending" : "public";
+
+            comment.status = newStatus;
+
+            CommentsResource.update({}, comment, function (data){
+                $scope.toggledcomment= data;
+            });
+        };
+
         $scope.create = function (content, article) {
 
             var comment = new CommentsResource({
@@ -38,25 +52,25 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
 
                 resource = CommentsByArticleResource;
 
-                    //Admin or any user.
-                    //Even if its admin, in post page only show public (as per requirements)
-                    params = {
-                        articleId: article._id,
-                        status: "public"
-                    };
+                //Admin or any user.
+                //Even if its admin, in post page only show public (as per requirements)
+                params = {
+                    articleId: article._id,
+                    status: "public"
+                };
 
             } else { //no article specified
 
                 resource = CommentsResource;
 
                 if (MeanUser.isAdmin) { //Admin, all articles
-                        params = {};
+                    params = {};
                 }
                 else {//any user all articles. This wont happen
                     params = {
                         status: "public"
                     };
-                 }
+                }
             }
             resource.query(params, function (comments) {
                 $scope.comments = comments;
