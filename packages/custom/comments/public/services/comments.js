@@ -11,10 +11,10 @@ angular.module('mean.comments').factory('CommentsResource', ['$resource',
             }
         });
     }
-]).factory('CommentsListResource', ['$resource',
-    function($resource, status) {
+]).factory('CommentsByArticleResource', ['$resource',
+    function($resource) {
         return $resource('api/comments/article/:articleId/:status', {
-            articleId: '@_id', status: status
+            articleId: '@_id', status: '@status'
         },   {
             query: {
                 method: 'GET',

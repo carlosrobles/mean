@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mean.comments').controller('CommentsController', ['$scope', 'MeanUser', '$stateParams', 'Global',
-    'CommentsResource', 'CommentsListResource',
-    function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsListResource) {
+    'CommentsResource', 'CommentsByArticleResource',
+    function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsByArticleResource) {
 
         $scope.create = function (content, article) {
 
@@ -28,25 +28,37 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
                     self.content = '';
                 })
         };
-        
+
         $scope.find = function (article) {
 
-            var params = {};
+            var params = {};//All articles, all statuses
+            var resource;
 
+            if (!!article && !!article._id) { //with article
 
-            if (!MeanUser.isAdmin) {
-                params =   {
-                    articleId: article._id,
-                    status: "public"
-                };
+                resource = CommentsByArticleResource;
+
+                    //Admin or any user.
+                    //Even if its admin, in post page only show public (as per requirements)
+                    params = {
+                        articleId: article._id,
+                        status: "public"
+                    };
+
+            } else { //no article specified
+
+                resource = CommentsResource;
+
+                if (MeanUser.isAdmin) { //Admin, all articles
+                        params = {};
+                }
+                else {//any user all articles. This wont happen
+                    params = {
+                        status: "public"
+                    };
+                 }
             }
-            else {
-                params =   {
-                    articleId: article._id
-                };
-            }
-            console.log(params);
-            CommentsListResource.query(params, function (comments) {
+            resource.query(params, function (comments) {
                 $scope.comments = comments;
             });
         };
