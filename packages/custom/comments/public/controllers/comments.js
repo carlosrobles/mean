@@ -1,5 +1,5 @@
 'use strict';
-//TODO we are missing some error control in the save and  update at least.
+
 angular.module('mean.comments').controller('CommentsController', ['$scope', 'MeanUser', '$stateParams', 'Global',
     'CommentsResource', 'CommentsByArticleResource',
     function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsByArticleResource) {
