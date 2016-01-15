@@ -88,7 +88,7 @@ describe('<Unit Test>', function () {
                 });
             });
 
-            it('should be able to read at least one comment of whatever type if user is admin', function (done) {
+            it('should be able to read at least 2 comments regardless of the status if user is admin', function (done) {
                 this.timeout(10000);
 
                 var app = express();
@@ -100,20 +100,22 @@ describe('<Unit Test>', function () {
                 routes(null, app, auth);
 
                 comment.save(function (err, data) {
-                    request(app)
-                        .get('/api/comments/article/' + article._id)
-                        .expect(200)
-                        .end(function (err, res) {
-                            if (err) {
-                                return done(err);
-                            }
-                            else {
-                                var result = JSON.parse(JSON.stringify(res.body));
-                                expect(result.length).to.not.equal(0);
-                                done();
-                            }
-                        });
+                    approvedComment.save(function (err, data) {
+                        request(app)
+                            .get('/api/comments')
+                            .expect(200)
+                            .end(function (err, res) {
+                                if (err) {
+                                    return done(err);
+                                }
+                                else {
+                                    var result = JSON.parse(JSON.stringify(res.body));
+                                    expect(result.length).to.greaterThan(1);
+                                    done();
+                                }
+                            });
 
+                    });
                 });
             });
 
@@ -136,7 +138,7 @@ describe('<Unit Test>', function () {
                                 else {
                                     var result = JSON.parse(JSON.stringify(res.body));
                                     expect(result.length).to.not.equal(0);
-                                    for (var i in result){
+                                    for (var i in result) {
                                         expect(result[i].status).to.equal("public");
                                     }
                                     done();
