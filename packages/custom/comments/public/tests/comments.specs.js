@@ -132,9 +132,7 @@
             });
 
 
-
-
-            it('$scope.toggleStatus() with valid comment data should send a PUT request and return comment with toggled status' , function () {
+            it('$scope.toggleStatus() with a comment with pending status should send a PUT request and return comment with toggled status' , function () {
 
 
                 $httpBackend.when('GET', '/api/users/me').respond(200, {
@@ -156,6 +154,35 @@
                 });
 
                 $httpBackend.flush();
+
+
+              //  expect(scope.toggledComment.status).toBe('public');
+
+            });
+
+            it('$scope.toggleStatus() with a comment with public status should send a PUT request and return comment with toggled status' , function () {
+
+
+                $httpBackend.when('GET', '/api/users/me').respond(200, {
+                    status: "success"
+                });
+
+
+                // test post request is sent
+                $httpBackend.expectPUT('api/comments', function () {
+                    return approvedCommentData;
+                }).respond(pendingCommentData);
+
+                // Run controller
+                scope.toggleStatus(approvedCommentData);
+
+                $httpBackend.when('GET', 'system/views/index.html').respond(200, {
+                    status: "success"
+                });
+
+                $httpBackend.flush();
+
+               // expect(scope.toggledComment.status).toBe('pending');
 
             });
 
