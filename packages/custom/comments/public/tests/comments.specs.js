@@ -76,7 +76,8 @@
 
             var postCommentData = {
                 article: articleData._id,
-                content: 'MEAN rocks!', user: 0
+                content: 'MEAN rocks!', user: 0,
+                status: 'pending'
             };
 
 
@@ -86,6 +87,17 @@
                 _id: '525cf20451979dea2c000001',
                 content: 'MEAN rocks!', user: 0
 
+            };
+
+            var pendingCommentData = {
+                article: articleData._id,
+                content: 'MEAN rocks!', user: 0,
+                status: 'pending'
+            };
+            var approvedCommentData = {
+                article: articleData._id,
+                content: 'MEAN rocks!', user: 0,
+                status: 'public'
             };
 
             it('$scope.create() with valid form data should send a POST request ' +
@@ -116,6 +128,34 @@
 
                 // test form input(s) are reset
                 expect(scope.content).toEqual('');
+
+            });
+
+
+
+
+            it('$scope.toggleStatus() with valid comment data should send a PUT request and return comment with toggled status' , function () {
+
+
+                $httpBackend.when('GET', '/api/users/me').respond(200, {
+                    status: "success"
+                });
+
+
+
+                // test post request is sent
+                $httpBackend.expectPUT('api/comments', function () {
+                    return pendingCommentData
+                }).respond(approvedCommentData);
+
+                // Run controller
+                scope.toggleStatus(pendingCommentData);
+
+                $httpBackend.when('GET', 'system/views/index.html').respond(200, {
+                    status: "success"
+                });
+
+                $httpBackend.flush();
 
             });
 
