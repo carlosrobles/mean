@@ -54,7 +54,9 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
 
 
                     self.content = '';
-                })
+                }).catch(function(err){
+                    alert("Error "+err.status+": "+err.statusText);
+                });
         };
 
         $scope.find = function (article) {
