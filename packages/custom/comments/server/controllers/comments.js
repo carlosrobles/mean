@@ -5,7 +5,8 @@
  */
 var mongoose = require('mongoose'),
     Comment = mongoose.model('Comment'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    _ = require('lodash');
 
 
 /**
@@ -45,28 +46,42 @@ exports.create = function (req, res) {
  * Update a comment
  */
 exports.update = function (req, res) {
-    var comment = req.comment;
 
-    comment = _.extend(comment, req.body);
+
+     Comment.findOne({_id: req.body._id}, function (err, doc) {
+
+         if (err) {
+             return res.status(500).json({
+                 error: err
+             });
+         }
+
+        doc = _.extend(doc, req.body);
+
+        doc.save(function (err) {
+            if (err) {
+                return res.status(500).json({
+                    error: err
+                });
+            }
+            res.json(doc);
+        });
+    });
+
+    /*  var comment = new Comment(req.body);
+    //comment.user = req.user;
 
     comment.save(function (err) {
         if (err) {
-            return res.status(500).json({
-                error: 'Cannot update the comment'
+            return res.json(500, {
+                error: 'Cannot save the comment'
             });
         }
-        /*
-         Articles.events.publish({
-         action: 'updated',
-         user: {
-         name: req.user.name
-         },
-         name: article.title,
-         url: config.hostname + '/articles/' + article._id
-         });
-         */
-        res.json(comment);
-    });
+        comment.populate('user', function (err) {
+            res.json(comment);
+        });
+
+    });*/
 };
 
 /**
