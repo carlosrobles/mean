@@ -34,14 +34,14 @@ exports.create = function (req, res) {
                 error: 'Cannot save the comment'
             });
         }
-        comment.populate('user', function(err) {
+        comment.populate('user', function (err) {
             res.json(comment);
         });
 
     });
 };
 
-/** 
+/**
  * Update a comment
  */
 exports.update = function (req, res) {
@@ -103,13 +103,13 @@ exports.show = function (req, res) {
 };
 
 
-exports.fetchPublicByArticle = function (req, res ) {
+exports.fetchPublicByArticle = function (req, res) {
     return exports.fetchByArticle(req, res, "public");
 }
 /**
  * Fetching comments for a post
  */
-exports.fetchByArticle = function (req, res,  status) {
+exports.fetchByArticle = function (req, res, status) {
 
     var articleId = req.params.articleId;
     var limit = req.query.limit;
@@ -117,18 +117,24 @@ exports.fetchByArticle = function (req, res,  status) {
     var queryParams = {};
 
     if (typeof status == 'string') {
-        queryParams = {
-            article: articleId,
+
+        if (!!articleId)
+            queryParams = {
+                article: articleId,
+                status: status
+            };
+        else  queryParams = {
             status: status
         };
-    } else {
+    } else if (!!articleId) {
+
         queryParams = {
             article: articleId
         };
     }
     var query = Comment.find(queryParams).sort({
-            _id: -1
-        })
+        _id: -1
+    })
         .populate('user', 'name username');
 
     if (limit) {
