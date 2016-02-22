@@ -1,5 +1,5 @@
 'use strict';
-//TODO we are missing some error control in the save and  update at least.
+
 angular.module('mean.comments').controller('CommentsController', ['$scope', 'MeanUser', '$stateParams', 'Global',
     'CommentsResource', 'CommentsByArticleResource',
     function ($scope, MeanUser, $stateParams, Global, CommentsResource, CommentsByArticleResource) {
@@ -9,9 +9,11 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
 
             var self = this;
 
+            var oldStatus = comment.status;
             var newStatus = (comment.status == "public") ? "pending" : "public";
 
-            comment.status = newStatus;
+            $scope.toggledComment = null;
+                comment.status = newStatus;
 
             if (!comment.updated) {
                 comment.updated = [];
@@ -21,9 +23,12 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
             }
             comment.updated = new Date().getTime();
 
-            CommentsResource.update({}, comment, function (data){
-                $scope.toggledComment= data;
+            CommentsResource.update({}, comment, function (data) {
+                $scope.toggledComment = data;
                 return data;
+            }, function (err) {
+                alert("Error "+err.status+": "+err.statusText);
+                comment.status = oldStatus;
             });
         };
 
@@ -49,7 +54,9 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', 'Mea
 
 
                     self.content = '';
-                })
+                }).catch(function(err){
+                    alert("Error "+err.status+": "+err.statusText);
+                });
         };
 
         $scope.find = function (article) {
